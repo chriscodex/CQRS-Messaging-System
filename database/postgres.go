@@ -1,9 +1,12 @@
 package database
 
 import (
+	"context"
 	"database/sql"
 
 	_ "github.com/lib/pq"
+
+	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
 )
 
 type PostgresRepository struct {
@@ -22,4 +25,13 @@ func NewPostgresRepository(url string) (*PostgresRepository, error) {
 // Close connection with database
 func (repo *PostgresRepository) Close() {
 	repo.db.Close()
+}
+
+// Insert feed
+func (repo *PostgresRepository) InsertFeed(ctx context.Context, feed *models.Feed) error {
+	_, err := repo.db.ExecContext(ctx, "INSERT INTO feeds (id, title, description) VALUES ($1, $2, $3)", feed.Id, feed.Title, feed.Description)
+	if err != nil {
+		return err
+	}
+	return nil
 }
