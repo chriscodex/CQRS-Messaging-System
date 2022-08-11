@@ -1,6 +1,10 @@
 package database
 
-import "database/sql"
+import (
+	"database/sql"
+
+	_ "github.com/lib/pq"
+)
 
 type PostgresRepository struct {
 	db *sql.DB
@@ -13,4 +17,9 @@ func NewPostgresRepository(url string) (*PostgresRepository, error) {
 		return nil, err
 	}
 	return &PostgresRepository{db: db}, nil
+}
+
+// Close connection with database
+func (repo *PostgresRepository) Close() {
+	repo.db.Close()
 }
