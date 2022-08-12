@@ -35,3 +35,22 @@ func (repo *PostgresRepository) InsertFeed(ctx context.Context, feed *models.Fee
 	}
 	return nil
 }
+
+// List of feeds
+func (repo *PostgresRepository) ListFeeds(ctx context.Context) ([]*models.Feed, error) {
+	// Query
+	rows, err := repo.db.QueryContext(ctx, "SELECT id, title, description, values FROM feeds")
+	if err != nil {
+		return nil, err
+	}
+
+	// Mapping
+	var feeds []*models.Feed
+	for rows.Next() {
+		var feed *models.Feed
+		if err := rows.Scan(&feed.Id, &feed.Title, &feed.Description, &feed.CreatedAt); err == nil {
+			feeds = append(feeds, feed)
+		}
+	}
+	return feeds, nil
+}
