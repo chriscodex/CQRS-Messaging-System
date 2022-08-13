@@ -20,3 +20,7 @@ var repo SearchRepository
 func SetSearchRepository(r SearchRepository) {
 	repo = r
 }
+
+func Close() {
+	repo.Close()
+}
