@@ -14,3 +14,8 @@ type CreatedFeedMessage struct {
 	Description string    `json:"description"`
 	CreatedAt   time.Time `json:"created_at"`
 }
+
+// Implementation of methods
+func (m CreatedFeedMessage) Type() string {
+	return "created_feed"
+}
