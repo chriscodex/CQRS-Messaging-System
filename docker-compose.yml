@@ -9,6 +9,7 @@ services:
       POSTGRES_DB: mydb
     restart: always
 
+# Based on nats image
   nats:
     image: "nats-streaming:0.9.2"
     restart: always
