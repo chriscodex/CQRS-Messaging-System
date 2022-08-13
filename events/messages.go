@@ -16,7 +16,9 @@ type CreatedFeedMessage struct {
 	CreatedAt   time.Time `json:"created_at"`
 }
 
-// Implementation of methods
+/* Implementation of methods*/
+
+// Message to Event Feed Created
 func (m CreatedFeedMessage) Type() string {
 	return "created_feed"
 }
