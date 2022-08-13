@@ -46,7 +46,7 @@ func (n *NatsEventStore) Close() {
 	close(n.feedCreatedChan)
 }
 
-// Message encoder to bytes
+// Function to encode messages to bytes
 func (n *NatsEventStore) encodeMessage(m Message) ([]byte, error) {
 	b := bytes.Buffer{}
 	err := gob.NewEncoder(&b).Encode(m)
@@ -56,7 +56,7 @@ func (n *NatsEventStore) encodeMessage(m Message) ([]byte, error) {
 	return b.Bytes(), nil
 }
 
-// Publish Created Feed to services connected to NATS
+// Method Publish Created Feed to services connected to NATS
 func (n *NatsEventStore) PublishCreatedFeed(ctx context.Context, feed *models.Feed) error {
 	msg := CreatedFeedMessage{
 		Id:          feed.Id,
@@ -71,6 +71,52 @@ func (n *NatsEventStore) PublishCreatedFeed(ctx context.Context, feed *models.Fe
 		return err
 	}
 
-	//
+	// Publish the message with the corresponding data
 	return n.conn.Publish(msg.Type(), data)
+}
+
+// Function to decode bytes to interface
+func (n *NatsEventStore) decodeMessage(data []byte, m interface{}) error {
+	b := bytes.Buffer{}
+	b.Write(data)
+	return gob.NewDecoder(&b).Decode(m)
+}
+
+// Closure to subscribe
+func (n *NatsEventStore) OnCreateFeed(f func(CreatedFeedMessage)) (err error) {
+	msg := CreatedFeedMessage{}
+
+	n.feedCreatedSub, err = n.conn.Subscribe(msg.Type(), func(m *nats.Msg) {
+		n.decodeMessage(m.Data, &msg)
+		f(msg)
+	})
+
+	return
+}
+
+// Subscription Channel
+func (n *NatsEventStore) SubscribeCreatedFeed(ctx context.Context) (<-chan CreatedFeedMessage, error) {
+	m := CreatedFeedMessage{}
+
+	n.feedCreatedChan = make(chan CreatedFeedMessage, 64)
+
+	ch := make(chan *nats.Msg, 64)
+
+	var err error
+
+	n.feedCreatedSub, err = n.conn.ChanSubscribe(m.Type(), ch)
+	if err != nil {
+		return nil, err
+	}
+
+	go func() {
+		for {
+			select {
+			case msg := <-ch:
+				n.decodeMessage(msg.Data, &m)
+				n.feedCreatedChan <- m
+			}
+		}
+	}()
+	return (<-chan CreatedFeedMessage)(n.feedCreatedChan), nil
 }
