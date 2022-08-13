@@ -14,3 +14,9 @@ type SearchRepository interface {
 	IndexFeed(ctx context.Context, feed models.Feed) error
 	SearchFeed(ctx context.Context, query string) ([]models.Feed, error)
 }
+
+var repo SearchRepository
+
+func SetSearchRepository(r SearchRepository) {
+	repo = r
+}
