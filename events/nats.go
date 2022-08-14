@@ -2,8 +2,10 @@ package events
 
 import (
 	"bytes"
+	"context"
 	"encoding/gob"
 
+	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
 	"github.com/nats-io/nats.go"
 )
 
@@ -52,4 +54,23 @@ func (n *NatsEventStore) encodeMessage(m Message) ([]byte, error) {
 		return nil, err
 	}
 	return b.Bytes(), nil
+}
+
+// Publish Created Feed to services connected to NATS
+func (n *NatsEventStore) PublishCreatedFeed(ctx context.Context, feed *models.Feed) error {
+	msg := CreatedFeedMessage{
+		Id:          feed.Id,
+		Title:       feed.Title,
+		Description: feed.Description,
+		CreatedAt:   feed.CreatedAt,
+	}
+
+	data, err := n.encodeMessage(msg)
+
+	if err != nil {
+		return err
+	}
+
+	//
+	return n.conn.Publish(msg.Type(), data)
 }
