@@ -1,6 +1,11 @@
 package events
 
-import "github.com/nats-io/nats.go"
+import (
+	"bytes"
+	"encoding/gob"
+
+	"github.com/nats-io/nats.go"
+)
 
 /*Concrete implementation of NATS*/
 
@@ -37,4 +42,14 @@ func (n *NatsEventStore) Close() {
 	}
 	// Close channel of transmition of feeds
 	close(n.feedCreatedChan)
+}
+
+// Message encoder to bytes
+func (n *NatsEventStore) encodeMessage(m Message) ([]byte, error) {
+	b := bytes.Buffer{}
+	err := gob.NewEncoder(&b).Encode(m)
+	if err != nil {
+		return nil, err
+	}
+	return b.Bytes(), nil
 }
