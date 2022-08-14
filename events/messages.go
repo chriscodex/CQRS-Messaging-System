@@ -3,11 +3,12 @@ package events
 import "time"
 
 // Dependency inversion interface
+/*Abstract implementation*/
 type Message interface {
 	Type() string
 }
 
-// Struct that will be transmitted through the NATS
+// Struct that will be transmitted through the NATS system
 type CreatedFeedMessage struct {
 	Id          string    `json:"id"`
 	Title       string    `json:"title"`
