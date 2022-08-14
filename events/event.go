@@ -33,5 +33,5 @@ func SubscribeCreatedFeed(ctx context.Context) (<-chan CreatedFeedMessage, error
 }
 
 func OnCreateFeed(f func(CreatedFeedMessage)) error {
-	return OnCreateFeed(f)
+	return eventStore.OnCreateFeed(f)
 }
