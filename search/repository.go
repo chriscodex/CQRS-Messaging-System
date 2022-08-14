@@ -24,3 +24,8 @@ func SetSearchRepository(r SearchRepository) {
 func Close() {
 	repo.Close()
 }
+
+// Index feeds
+func IndexFeed(ctx context.Context, feed models.Feed) error {
+	return repo.IndexFeed(ctx, feed)
+}
