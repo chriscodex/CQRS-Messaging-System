@@ -13,6 +13,7 @@ type NatsEventStore struct {
 	feedCreatedChan chan CreatedFeedMessage
 }
 
+/*Methods of NatsEventStore*/
 // Constructor
 func NewNats(url string) (*NatsEventStore, error) {
 	conn, err := nats.Connect(url)
@@ -20,4 +21,20 @@ func NewNats(url string) (*NatsEventStore, error) {
 		return nil, err
 	}
 	return &NatsEventStore{conn: conn}, nil
+}
+
+// Close Method
+func (n *NatsEventStore) Close() {
+	// Verify if the connection exists
+	if n.conn != nil {
+		// Close the connection with the server
+		n.conn.Close()
+	}
+	// Verify if the subscription exists
+	if n.feedCreatedSub != nil {
+		// Unsubscribe from event
+		n.feedCreatedSub.Unsubscribe()
+	}
+	// Close channel of transmition of feeds
+	close(n.feedCreatedChan)
 }
