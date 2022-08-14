@@ -48,3 +48,24 @@ func (e *ElasticSearchRepository) IndexFeed(ctx context.Context, feed models.Fee
 	)
 	return err
 }
+
+// Search Feeds
+func (e *ElasticSearchRepository) SearchFeed(ctx context.Context, query string) ([]models.Feed, error) {
+	// Buffer
+	var buf bytes.Buffer
+
+	// Query that will be sent to ElasticSearch for the search
+	searchQuery := map[string]interface{}{
+		"query": map[string]interface{}{
+			// Indicate to bring several documents
+			"multi_match": map[string]interface{}{
+				"query":  query,
+				"fields": []string{"title", "description"},
+				// Smart search
+				"fuzziness": 3,
+				// Frequency of appearance of the query
+				"cutoff_frequency": 0.0001,
+			},
+		},
+	}
+}
