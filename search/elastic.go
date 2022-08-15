@@ -68,4 +68,22 @@ func (e *ElasticSearchRepository) SearchFeed(ctx context.Context, query string) 
 			},
 		},
 	}
+
+	// Encode searchQuery into buff
+	if err := json.NewEncoder(&buf).Encode(searchQuery); err != nil {
+		return nil, err
+	}
+
+	/* Search in ElasticSearch*/
+	// Search Configuration
+	res, err := e.client.Search(
+		// Context for help to debug
+		e.client.Search.WithContext(ctx),
+		// Indicate index
+		e.client.Search.WithIndex("feeds"),
+		// Send the buf(query encoded)
+		e.client.Search.WithBody(&buf),
+		// Get the total hits
+		e.client.Search.WithTrackTotalHits(true),
+	)
 }
