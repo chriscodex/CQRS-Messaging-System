@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
 	"github.com/segmentio/ksuid"
 )
 
@@ -28,6 +29,14 @@ func createFeedHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
+	}
+
+	// Feed wich be inserted in database
+	feed := models.Feed{
+		Id:          id.String(),
+		Title:       req.Title,
+		Description: req.Description,
+		CreatedAt:   createdAt,
 	}
 
 }
