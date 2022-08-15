@@ -2,9 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"time"
 
+	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/events"
 	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
 	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/repository"
 	"github.com/segmentio/ksuid"
@@ -46,4 +48,13 @@ func createFeedHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Publish event created feed
+	if err := events.PublishCreatedFeed(r.Context(), &feed); err != nil {
+		log.Printf("failed to publish created feed event: %v", err)
+	}
+
+	// Send feed to writer (client)
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(feed)
 }
