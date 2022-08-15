@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
+	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/repository"
 	"github.com/segmentio/ksuid"
 )
 
@@ -37,6 +38,12 @@ func createFeedHandler(w http.ResponseWriter, r *http.Request) {
 		Title:       req.Title,
 		Description: req.Description,
 		CreatedAt:   createdAt,
+	}
+
+	// Insert feed into database
+	if err := repository.InsertFeed(r.Context(), &feed); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 }
