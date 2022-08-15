@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 
 	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
 	elastic "github.com/elastic/go-elasticsearch/v7"
@@ -86,4 +87,28 @@ func (e *ElasticSearchRepository) SearchFeed(ctx context.Context, query string) 
 		// Get the total hits
 		e.client.Search.WithTrackTotalHits(true),
 	)
+	if err != nil {
+		return nil, err
+	}
+
+	var feeds []models.Feed
+	// Close the response body
+	defer func() {
+		if err := res.Body.Close(); err != nil {
+			feeds = nil
+		}
+	}()
+
+	// Check if error exists
+	if res.IsError() {
+		return nil, errors.New(res.String())
+	}
+
+	// Decode the response body of the search into eRes
+	var eRes map[string]interface{}
+
+	if err := json.NewDecoder(res.Body).Decode(&eRes); err != nil {
+		return nil, err
+	}
+
 }
