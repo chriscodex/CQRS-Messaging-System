@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/database"
+	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/events"
 	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/repository"
 	"github.com/kelseyhightower/envconfig"
 )
@@ -36,4 +38,20 @@ func main() {
 	}
 	repository.SetRepository(repo)
 
+	/*NATS Connection*/
+	// Instance of NATS
+	n, err := events.NewNats(fmt.Sprintf("nats://%s", cfg.NatsAddress))
+	if err != nil {
+		log.Fatal(err)
+	}
+	events.SetEventStore(n)
+
+	// Close NATS Connection
+	defer events.Close()
+
+	// Listen and Serve
+	router := newRouter()
+	if err := http.ListenAndServe(":8080", router); err != nil {
+		log.Fatal(err)
+	}
 }
