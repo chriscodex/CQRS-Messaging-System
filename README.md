@@ -1,1 +1,1 @@
-# Event-Architecture-CQRS-Go ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/ChrisCodeX/CRUD-MongoDBAtlas-Go) ![](https://img.shields.io/badge/Docker-blue?style=flat&logo=docker&logoColor=white)
+# Event-Architecture-CQRS-Go ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/ChrisCodeX/CRUD-MongoDBAtlas-Go) ![](https://img.shields.io/badge/Docker-blue?style=flat&logo=docker&logoColor=white) ![](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql&logoColor=white)
