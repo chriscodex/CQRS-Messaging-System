@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/gob"
 
-	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
+	"github.com/ChrisCodeX/CQRS-Messaging-System/models"
 	"github.com/nats-io/nats.go"
 )
 
