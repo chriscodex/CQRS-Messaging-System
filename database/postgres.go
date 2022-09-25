@@ -6,7 +6,7 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
+	"github.com/ChrisCodeX/CQRS-Messaging-System/models"
 )
 
 type PostgresRepository struct {
