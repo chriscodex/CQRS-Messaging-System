@@ -3,7 +3,7 @@ package search
 import (
 	"context"
 
-	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
+	"github.com/ChrisCodeX/CQRS-Messaging-System/models"
 )
 
 /*Abstract implementation of search*/
