@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
+	"github.com/ChrisCodeX/CQRS-Messaging-System/models"
 	elastic "github.com/elastic/go-elasticsearch/v7"
 )
 
