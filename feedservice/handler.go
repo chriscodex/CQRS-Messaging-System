@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/events"
-	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
-	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/repository"
+	"github.com/ChrisCodeX/CQRS-Messaging-System/events"
+	"github.com/ChrisCodeX/CQRS-Messaging-System/models"
+	"github.com/ChrisCodeX/CQRS-Messaging-System/repository"
 	"github.com/segmentio/ksuid"
 )
 
