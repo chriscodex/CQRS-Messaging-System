@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/models"
+	"github.com/ChrisCodeX/CQRS-Messaging-System/models"
 )
 
 type Repository interface {
