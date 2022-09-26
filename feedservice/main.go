@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/database"
-	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/events"
-	"github.com/ChrisCodeX/Event-Architecture-CQRS-Go/repository"
+	"github.com/ChrisCodeX/CQRS-Messaging-System/database"
+	"github.com/ChrisCodeX/CQRS-Messaging-System/events"
+	"github.com/ChrisCodeX/CQRS-Messaging-System/repository"
 	"github.com/kelseyhightower/envconfig"
 )
 
