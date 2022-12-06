@@ -31,3 +31,6 @@ func IndexFeed(ctx context.Context, feed models.Feed) error {
 }
 
 // Search feeds
+func SearchFeed(ctx context.Context, query string) ([]models.Feed, error) {
+	return repo.SearchFeed(ctx, query)
+}
