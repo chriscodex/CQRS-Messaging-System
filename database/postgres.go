@@ -45,14 +45,16 @@ func (repo *PostgresRepository) ListFeeds(ctx context.Context) ([]*models.Feed, 
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
 	// Mapping
 	var feeds []*models.Feed
 	for rows.Next() {
 		var feed *models.Feed
-		if err := rows.Scan(&feed.Id, &feed.Title, &feed.Description, &feed.CreatedAt); err == nil {
-			feeds = append(feeds, feed)
+		if err := rows.Scan(&feed.Id, &feed.Title, &feed.Description, &feed.CreatedAt); err != nil {
+			return nil, err
 		}
+		feeds = append(feeds, feed)
 	}
 	return feeds, nil
 }
