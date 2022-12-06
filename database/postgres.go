@@ -15,7 +15,9 @@ type PostgresRepository struct {
 
 // Constructor
 func NewPostgresRepository(url string) (*PostgresRepository, error) {
+	// Open connection
 	db, err := sql.Open("postgres", url)
+
 	if err != nil {
 		return nil, err
 	}
