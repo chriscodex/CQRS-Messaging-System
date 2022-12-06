@@ -18,6 +18,10 @@ func SetRepository(r Repository) {
 	repository = r
 }
 
+func Close() {
+	repository.Close()
+}
+
 func InsertFeed(ctx context.Context, feed *models.Feed) error {
 	return repository.InsertFeed(ctx, feed)
 }
