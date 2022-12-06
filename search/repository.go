@@ -29,3 +29,5 @@ func Close() {
 func IndexFeed(ctx context.Context, feed models.Feed) error {
 	return repo.IndexFeed(ctx, feed)
 }
+
+// Search feeds
