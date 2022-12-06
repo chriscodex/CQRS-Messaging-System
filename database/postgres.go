@@ -41,7 +41,7 @@ func (repo *PostgresRepository) InsertFeed(ctx context.Context, feed *models.Fee
 // List of feeds
 func (repo *PostgresRepository) ListFeeds(ctx context.Context) ([]*models.Feed, error) {
 	// Query
-	rows, err := repo.db.QueryContext(ctx, "SELECT id, title, description, values FROM feeds")
+	rows, err := repo.db.QueryContext(ctx, "SELECT id, title, description, created_at values FROM feeds")
 	if err != nil {
 		return nil, err
 	}
